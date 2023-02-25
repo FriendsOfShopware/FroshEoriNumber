@@ -1,0 +1,22 @@
+{
+  "name": "frosh/eori-number",
+  "description": "EORI number",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Frosh\\EoriNumber\\": "src/"
+    }
+  },
+  "require": {
+    "shopware/core": "~6.4.0",
+    "shopware/storefront": "*",
+  },
+  "extra": {
+    "shopware-plugin-class": "Frosh\\EoriNumber\\FroshEoriNumber",
+    "label": {
+      "de-DE": "EORI Nummer",
+      "en-GB": "EORI number"
+    }
+  }
+}

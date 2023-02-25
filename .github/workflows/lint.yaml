@@ -1,0 +1,20 @@
+name: Lint
+
+on:
+  push:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone
+        uses: actions/checkout@v2
+
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
+
+      - name: phpstan
+        uses: docker://aragon999/phpstan-shopware:v6.4.0
+        with:
+          args: analyse .

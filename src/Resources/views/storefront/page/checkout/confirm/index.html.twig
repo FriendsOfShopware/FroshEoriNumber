@@ -1,0 +1,30 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
+
+{% block page_checkout_confirm_address %}
+    {{ parent() }}
+
+    {% set eoriNumberActiveCountries = config('FroshEoriNumber.config.activeCountries') %}
+    {% set customerShippingAddressCountryId = context.customer.activeShippingAddress.countryId %}
+    {% if eoriNumberActiveCountries and customerShippingAddressCountryId
+            and customerShippingAddressCountryId in eoriNumberActiveCountries %}
+        <div class="confirm-eori-number">
+            <div class="card checkout-card">
+                <div class="card-body">
+                    <div class="card-title">
+                        {{ 'frosh-eori-number.checkout.eori-number.card-title'|trans|sw_sanitize }}
+                    </div>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        maxlength="40"
+                        form="confirmOrderForm"
+                        placeholder="{{ 'frosh-eori-number.checkout.eori-number.input-placeholder'|trans|sw_sanitize }}"
+                        value="{{ context.customer.customFields.frosh_eori_number }}"
+                        name="froshEoriNumber"
+                    />
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{
+    "frosh-eori-number": {
+        "checkout": {
+            "eori-number": {
+                "card-title": "EORI number",
+                "input-placeholder": "EORI number"
+            }
+        }
+    }
+}
