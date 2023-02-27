@@ -62,6 +62,11 @@ class EoriNumberCartConverterSubscriber implements EventSubscriberInterface
             }
         }
 
+        if (!empty($orderData['orderCustomer']['customFields'][FroshEoriNumber::CUSTOM_FIELD_NAME_EORI_NUMBER])) {
+            $orderData['customFields'] ??= [];
+            $orderData['customFields'][FroshEoriNumber::CUSTOM_FIELD_NAME_EORI_NUMBER] = $orderData['orderCustomer']['customFields'][FroshEoriNumber::CUSTOM_FIELD_NAME_EORI_NUMBER];
+        }
+
         $event->setConvertedCart($orderData);
     }
 
