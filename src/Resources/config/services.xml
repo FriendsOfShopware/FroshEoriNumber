@@ -9,5 +9,11 @@
             <argument type="service" id="customer.repository"/>
             <tag name="kernel.event_subscriber"/>
         </service>
+
+        <service id="Frosh\EoriNumber\Core\Checkout\Order\Validation\OrderValidationFactory"
+                 decorates="Shopware\Core\Checkout\Order\Validation\OrderValidationFactory">
+            <argument type="service" id="Frosh\EoriNumber\Core\Checkout\Order\Validation\OrderValidationFactory.inner"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+        </service>
     </services>
 </container>

@@ -11,5 +11,12 @@
             <label>Active countries</label>
             <label lang="de-DE">Aktive Länder</label>
         </component>
+
+        <component name="sw-entity-multi-id-select">
+            <name>requiredCountries</name>
+            <entity>country</entity>
+            <label>Required</label>
+            <label lang="de-DE">Pflichfeld</label>
+        </component>
     </card>
 </config>
