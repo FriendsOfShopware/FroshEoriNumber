@@ -3,6 +3,7 @@
 namespace Frosh\EoriNumber;
 
 use Shopware\Core\Checkout\Customer\CustomerDefinition;
+use Shopware\Core\Checkout\Order\OrderDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
@@ -46,7 +47,14 @@ class FroshEoriNumber extends Plugin
                     ],
                 ],
                 'relations' => [
-                    ['entityName' => CustomerDefinition::ENTITY_NAME],
+                    [
+                        'id' => md5(self::CUSTOM_FIELD_SET_EROI_ID . CustomerDefinition::ENTITY_NAME),
+                        'entityName' => CustomerDefinition::ENTITY_NAME,
+                    ],
+                    [
+                        'id' => md5(self::CUSTOM_FIELD_SET_EROI_ID . OrderDefinition::ENTITY_NAME),
+                        'entityName' => OrderDefinition::ENTITY_NAME,
+                    ],
                 ],
                 'customFields' => [
                     [

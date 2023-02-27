@@ -43,7 +43,10 @@ class OrderValidationFactory implements DataValidationFactoryInterface
         DataValidationDefinition $definition,
         SalesChannelContext $context
     ): void {
-        $requiredCountries = $this->systemConfigService->get('FroshEoriNumber.config.requiredCountries');
+        $requiredCountries = $this->systemConfigService->get(
+            'FroshEoriNumber.config.requiredCountries',
+            $context->getSalesChannelId()
+        );
         if (!\is_array($requiredCountries) || count($requiredCountries) === 0) {
             return;
         }
