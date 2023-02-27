@@ -7,6 +7,8 @@
     {% set customerShippingAddressCountryId = context.customer.activeShippingAddress.countryId %}
     {% if eoriNumberActiveCountries and customerShippingAddressCountryId
             and customerShippingAddressCountryId in eoriNumberActiveCountries %}
+        {% set eoriNumberRequiredCountries = config('FroshEoriNumber.config.requiredCountries') %}
+
         <div class="confirm-eori-number">
             <div class="card checkout-card">
                 <div class="card-body">
@@ -22,6 +24,9 @@
                         placeholder="{{ 'frosh-eori-number.checkout.eori-number.input-placeholder'|trans|sw_sanitize }}"
                         value="{{ context.customer.customFields.frosh_eori_number }}"
                         name="froshEoriNumber"
+                      {% if eoriNumberRequiredCountries and customerShippingAddressCountryId in eoriNumberRequiredCountries %}
+                        required
+                      {% endif %}
                     />
                 </div>
             </div>
