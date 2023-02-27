@@ -7,6 +7,7 @@ use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -40,13 +41,14 @@ class EoriNumberCartConverterSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $customer = $event->getSalesChannelContext()->getCustomer();
+        $context = $event->getSalesChannelContext();
+        $customer = $context->getCustomer();
         if ($customer === null) {
             return;
         }
 
         $orderData = $event->getConvertedCart();
-        if (!$this->shouldUseEoriNumber($customer)) {
+        if (!$this->shouldUseEoriNumber($customer, $context)) {
             unset($orderData['orderCustomer']['customFields'][FroshEoriNumber::CUSTOM_FIELD_NAME_EORI_NUMBER]);
         } else {
             // Make sure that the customer custom fields always exist
@@ -70,14 +72,17 @@ class EoriNumberCartConverterSubscriber implements EventSubscriberInterface
         $event->setConvertedCart($orderData);
     }
 
-    private function shouldUseEoriNumber(CustomerEntity $customer): bool
+    private function shouldUseEoriNumber(CustomerEntity $customer, SalesChannelContext $context): bool
     {
         $shippingAddress = $customer->getActiveShippingAddress();
         if ($shippingAddress === null) {
             return false;
         }
 
-        $activeCountries = $this->systemConfigService->get('FroshEoriNumber.config.activeCountries');
+        $activeCountries = $this->systemConfigService->get(
+            'FroshEoriNumber.config.activeCountries',
+            $context->getSalesChannelId()
+        );
         if (!\is_array($activeCountries) || count($activeCountries) === 0) {
             return false;
         }
